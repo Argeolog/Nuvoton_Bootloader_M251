@@ -1,0 +1,594 @@
+	.text
+	.syntax unified
+	.eabi_attribute	67, "2.09"	@ Tag_conformance
+	.cpu	cortex-m23
+	.eabi_attribute	6, 16	@ Tag_CPU_arch
+	.eabi_attribute	7, 77	@ Tag_CPU_arch_profile
+	.eabi_attribute	8, 0	@ Tag_ARM_ISA_use
+	.eabi_attribute	9, 3	@ Tag_THUMB_ISA_use
+	.eabi_attribute	34, 0	@ Tag_CPU_unaligned_access
+	.eabi_attribute	17, 1	@ Tag_ABI_PCS_GOT_use
+	.eabi_attribute	20, 2	@ Tag_ABI_FP_denormal
+	.eabi_attribute	21, 0	@ Tag_ABI_FP_exceptions
+	.eabi_attribute	23, 1	@ Tag_ABI_FP_number_model
+	.eabi_attribute	24, 1	@ Tag_ABI_align_needed
+	.eabi_attribute	25, 1	@ Tag_ABI_align_preserved
+	.eabi_attribute	38, 1	@ Tag_ABI_FP_16bit_format
+	.eabi_attribute	18, 2	@ Tag_ABI_PCS_wchar_t
+	.eabi_attribute	26, 1	@ Tag_ABI_enum_size
+	.eabi_attribute	14, 0	@ Tag_ABI_PCS_R9_use
+	.file	"descriptors.c"
+	.file	1 "C:\\Keil_v5\\ARM\\ARMCLANG\\Bin\\..\\include" "stdint.h"
+	.file	2 "D:\\Github Projeleri\\Bootloader\\Nuvoton\\KEIL" "../descriptors.c"
+	.file	3 "D:/Software Tools/Keil/Nuvoton/Library/StdDriver/inc" "usbd.h"
+	.hidden	HID_DeviceReportDescriptor      @ @HID_DeviceReportDescriptor
+	.type	HID_DeviceReportDescriptor,%object
+	.section	.data.HID_DeviceReportDescriptor,"aw",%progbits
+	.globl	HID_DeviceReportDescriptor
+HID_DeviceReportDescriptor:
+	.ascii	"\006\000\377\t\001\241\001\031\001)@\025\000&\377\000u\b\225@\201\000\031\001)@\221\000\300"
+	.size	HID_DeviceReportDescriptor, 29
+
+	.hidden	gu8DeviceDescriptor             @ @gu8DeviceDescriptor
+	.type	gu8DeviceDescriptor,%object
+	.section	.data.gu8DeviceDescriptor,"aw",%progbits
+	.globl	gu8DeviceDescriptor
+gu8DeviceDescriptor:
+	.ascii	"\022\001\020\001\000\000\000\b\346\007\346\007\000\000\001\002\000\001"
+	.size	gu8DeviceDescriptor, 18
+
+	.hidden	gu8ConfigDescriptor             @ @gu8ConfigDescriptor
+	.type	gu8ConfigDescriptor,%object
+	.section	.data.gu8ConfigDescriptor,"aw",%progbits
+	.globl	gu8ConfigDescriptor
+gu8ConfigDescriptor:
+	.ascii	"\t\002)\000\001\001\000\2002\t\004\000\000\002\003\000\000\000\t!\020\001\000\001\"\035\000\007\005\201\003@\000\001\007\005\002\003@\000\001"
+	.size	gu8ConfigDescriptor, 41
+
+	.hidden	gu8StringLang                   @ @gu8StringLang
+	.type	gu8StringLang,%object
+	.section	.data.gu8StringLang,"aw",%progbits
+	.globl	gu8StringLang
+gu8StringLang:
+	.ascii	"\004\003\t\004"
+	.size	gu8StringLang, 4
+
+	.hidden	gu8VendorStringDesc             @ @gu8VendorStringDesc
+	.type	gu8VendorStringDesc,%object
+	.section	.data.gu8VendorStringDesc,"aw",%progbits
+	.globl	gu8VendorStringDesc
+gu8VendorStringDesc:
+	.asciz	"\013\003T\000e\000s\000t"
+	.size	gu8VendorStringDesc, 10
+
+	.hidden	gu8ProductStringDesc            @ @gu8ProductStringDesc
+	.type	gu8ProductStringDesc,%object
+	.section	.data.gu8ProductStringDesc,"aw",%progbits
+	.globl	gu8ProductStringDesc
+gu8ProductStringDesc:
+	.asciz	"\024\003B\000o\000o\000t\000 \000M\000o\000d\000e"
+	.size	gu8ProductStringDesc, 20
+
+	.hidden	gu8BOSDescriptor                @ @gu8BOSDescriptor
+	.type	gu8BOSDescriptor,%object
+	.section	.data.gu8BOSDescriptor,"aw",%progbits
+	.globl	gu8BOSDescriptor
+gu8BOSDescriptor:
+	.asciz	"\005\017\f\000\001\005\020\002\002\000\000"
+	.size	gu8BOSDescriptor, 12
+
+	.hidden	gpu8UsbString                   @ @gpu8UsbString
+	.type	gpu8UsbString,%object
+	.section	.data.gpu8UsbString,"aw",%progbits
+	.globl	gpu8UsbString
+	.p2align	2
+gpu8UsbString:
+	.long	gu8StringLang
+	.long	gu8VendorStringDesc
+	.long	gu8ProductStringDesc
+	.long	0
+	.size	gpu8UsbString, 16
+
+	.hidden	gu8UsbHidReport                 @ @gu8UsbHidReport
+	.type	gu8UsbHidReport,%object
+	.section	.data.gu8UsbHidReport,"aw",%progbits
+	.globl	gu8UsbHidReport
+	.p2align	2
+gu8UsbHidReport:
+	.long	HID_DeviceReportDescriptor
+	.long	0
+	.long	0
+	.size	gu8UsbHidReport, 12
+
+	.hidden	gu32UsbHidReportLen             @ @gu32UsbHidReportLen
+	.type	gu32UsbHidReportLen,%object
+	.section	.data.gu32UsbHidReportLen,"aw",%progbits
+	.globl	gu32UsbHidReportLen
+	.p2align	2
+gu32UsbHidReportLen:
+	.long	29                              @ 0x1d
+	.long	0                               @ 0x0
+	.long	0                               @ 0x0
+	.size	gu32UsbHidReportLen, 12
+
+	.hidden	gu32ConfigHidDescIdx            @ @gu32ConfigHidDescIdx
+	.type	gu32ConfigHidDescIdx,%object
+	.section	.data.gu32ConfigHidDescIdx,"aw",%progbits
+	.globl	gu32ConfigHidDescIdx
+	.p2align	2
+gu32ConfigHidDescIdx:
+	.long	18                              @ 0x12
+	.long	0                               @ 0x0
+	.long	0                               @ 0x0
+	.size	gu32ConfigHidDescIdx, 12
+
+	.hidden	gsInfo                          @ @gsInfo
+	.type	gsInfo,%object
+	.section	.rodata.gsInfo,"a",%progbits
+	.globl	gsInfo
+	.p2align	2
+gsInfo:
+	.long	gu8DeviceDescriptor
+	.long	gu8ConfigDescriptor
+	.long	gpu8UsbString
+	.long	gu8UsbHidReport
+	.long	gu8BOSDescriptor
+	.long	gu32UsbHidReportLen
+	.long	gu32ConfigHidDescIdx
+	.size	gsInfo, 28
+
+	.section	.debug_abbrev,"",%progbits
+	.byte	1                               @ Abbreviation Code
+	.byte	17                              @ DW_TAG_compile_unit
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	37                              @ DW_AT_producer
+	.byte	14                              @ DW_FORM_strp
+	.byte	19                              @ DW_AT_language
+	.byte	5                               @ DW_FORM_data2
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	16                              @ DW_AT_stmt_list
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	27                              @ DW_AT_comp_dir
+	.byte	14                              @ DW_FORM_strp
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	2                               @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	3                               @ Abbreviation Code
+	.byte	1                               @ DW_TAG_array_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	4                               @ Abbreviation Code
+	.byte	33                              @ DW_TAG_subrange_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	55                              @ DW_AT_count
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	5                               @ Abbreviation Code
+	.byte	22                              @ DW_TAG_typedef
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	6                               @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	7                               @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	8                               @ Abbreviation Code
+	.byte	15                              @ DW_TAG_pointer_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	9                               @ Abbreviation Code
+	.byte	38                              @ DW_TAG_const_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	10                              @ Abbreviation Code
+	.byte	19                              @ DW_TAG_structure_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	11                              @ Abbreviation Code
+	.byte	13                              @ DW_TAG_member
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	56                              @ DW_AT_data_member_location
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	0                               @ EOM(3)
+	.section	.debug_info,"",%progbits
+.Lcu_begin0:
+	.long	.Ldebug_info_end0-.Ldebug_info_start0 @ Length of Unit
+.Ldebug_info_start0:
+	.short	4                               @ DWARF version number
+	.long	.debug_abbrev                   @ Offset Into Abbrev. Section
+	.byte	4                               @ Address Size (in bytes)
+	.byte	1                               @ Abbrev [1] 0xb:0x1ff DW_TAG_compile_unit
+	.long	.Linfo_string0                  @ DW_AT_producer
+	.short	1                               @ DW_AT_language
+	.long	.Linfo_string1                  @ DW_AT_name
+	.long	.Lline_table_start0             @ DW_AT_stmt_list
+	.long	.Linfo_string2                  @ DW_AT_comp_dir
+	.byte	2                               @ Abbrev [2] 0x1e:0x11 DW_TAG_variable
+	.long	.Linfo_string3                  @ DW_AT_name
+	.long	47                              @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	14                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	HID_DeviceReportDescriptor
+	.byte	3                               @ Abbrev [3] 0x2f:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x34:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	29                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x3b:0xb DW_TAG_typedef
+	.long	70                              @ DW_AT_type
+	.long	.Linfo_string5                  @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	62                              @ DW_AT_decl_line
+	.byte	6                               @ Abbrev [6] 0x46:0x7 DW_TAG_base_type
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	8                               @ DW_AT_encoding
+	.byte	1                               @ DW_AT_byte_size
+	.byte	7                               @ Abbrev [7] 0x4d:0x7 DW_TAG_base_type
+	.long	.Linfo_string6                  @ DW_AT_name
+	.byte	8                               @ DW_AT_byte_size
+	.byte	7                               @ DW_AT_encoding
+	.byte	2                               @ Abbrev [2] 0x54:0x11 DW_TAG_variable
+	.long	.Linfo_string7                  @ DW_AT_name
+	.long	101                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	39                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8DeviceDescriptor
+	.byte	3                               @ Abbrev [3] 0x65:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x6a:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	18                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x71:0x11 DW_TAG_variable
+	.long	.Linfo_string8                  @ DW_AT_name
+	.long	130                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	62                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8ConfigDescriptor
+	.byte	3                               @ Abbrev [3] 0x82:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x87:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	41                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x8e:0x11 DW_TAG_variable
+	.long	.Linfo_string9                  @ DW_AT_name
+	.long	159                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	119                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8StringLang
+	.byte	3                               @ Abbrev [3] 0x9f:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0xa4:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	4                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0xab:0x11 DW_TAG_variable
+	.long	.Linfo_string10                 @ DW_AT_name
+	.long	188                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	127                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8VendorStringDesc
+	.byte	3                               @ Abbrev [3] 0xbc:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0xc1:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	10                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0xc8:0x11 DW_TAG_variable
+	.long	.Linfo_string11                 @ DW_AT_name
+	.long	217                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	135                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8ProductStringDesc
+	.byte	3                               @ Abbrev [3] 0xd9:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0xde:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	20                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0xe5:0x11 DW_TAG_variable
+	.long	.Linfo_string12                 @ DW_AT_name
+	.long	246                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	143                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8BOSDescriptor
+	.byte	3                               @ Abbrev [3] 0xf6:0xc DW_TAG_array_type
+	.long	59                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0xfb:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	12                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x102:0x11 DW_TAG_variable
+	.long	.Linfo_string13                 @ DW_AT_name
+	.long	275                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	159                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gpu8UsbString
+	.byte	3                               @ Abbrev [3] 0x113:0xc DW_TAG_array_type
+	.long	287                             @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x118:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	4                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x11f:0x5 DW_TAG_pointer_type
+	.long	59                              @ DW_AT_type
+	.byte	2                               @ Abbrev [2] 0x124:0x11 DW_TAG_variable
+	.long	.Linfo_string14                 @ DW_AT_name
+	.long	309                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	167                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu8UsbHidReport
+	.byte	3                               @ Abbrev [3] 0x135:0xc DW_TAG_array_type
+	.long	287                             @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x13a:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	3                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x141:0x11 DW_TAG_variable
+	.long	.Linfo_string15                 @ DW_AT_name
+	.long	338                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	174                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu32UsbHidReportLen
+	.byte	3                               @ Abbrev [3] 0x152:0xc DW_TAG_array_type
+	.long	350                             @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x157:0x6 DW_TAG_subrange_type
+	.long	77                              @ DW_AT_type
+	.byte	3                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x15e:0xb DW_TAG_typedef
+	.long	361                             @ DW_AT_type
+	.long	.Linfo_string17                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	64                              @ DW_AT_decl_line
+	.byte	6                               @ Abbrev [6] 0x169:0x7 DW_TAG_base_type
+	.long	.Linfo_string16                 @ DW_AT_name
+	.byte	7                               @ DW_AT_encoding
+	.byte	4                               @ DW_AT_byte_size
+	.byte	2                               @ Abbrev [2] 0x170:0x11 DW_TAG_variable
+	.long	.Linfo_string18                 @ DW_AT_name
+	.long	338                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	181                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gu32ConfigHidDescIdx
+	.byte	2                               @ Abbrev [2] 0x181:0x11 DW_TAG_variable
+	.long	.Linfo_string19                 @ DW_AT_name
+	.long	402                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	189                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	gsInfo
+	.byte	9                               @ Abbrev [9] 0x192:0x5 DW_TAG_const_type
+	.long	407                             @ DW_AT_type
+	.byte	5                               @ Abbrev [5] 0x197:0xb DW_TAG_typedef
+	.long	418                             @ DW_AT_type
+	.long	.Linfo_string27                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	51                              @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x1a2:0x5d DW_TAG_structure_type
+	.long	.Linfo_string26                 @ DW_AT_name
+	.byte	28                              @ DW_AT_byte_size
+	.byte	3                               @ DW_AT_decl_file
+	.byte	42                              @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x1aa:0xc DW_TAG_member
+	.long	.Linfo_string20                 @ DW_AT_name
+	.long	287                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	44                              @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	11                              @ Abbrev [11] 0x1b6:0xc DW_TAG_member
+	.long	.Linfo_string21                 @ DW_AT_name
+	.long	287                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	45                              @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	11                              @ Abbrev [11] 0x1c2:0xc DW_TAG_member
+	.long	.Linfo_string22                 @ DW_AT_name
+	.long	511                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	46                              @ DW_AT_decl_line
+	.byte	8                               @ DW_AT_data_member_location
+	.byte	11                              @ Abbrev [11] 0x1ce:0xc DW_TAG_member
+	.long	.Linfo_string23                 @ DW_AT_name
+	.long	511                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	47                              @ DW_AT_decl_line
+	.byte	12                              @ DW_AT_data_member_location
+	.byte	11                              @ Abbrev [11] 0x1da:0xc DW_TAG_member
+	.long	.Linfo_string24                 @ DW_AT_name
+	.long	287                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	48                              @ DW_AT_decl_line
+	.byte	16                              @ DW_AT_data_member_location
+	.byte	11                              @ Abbrev [11] 0x1e6:0xc DW_TAG_member
+	.long	.Linfo_string25                 @ DW_AT_name
+	.long	516                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	49                              @ DW_AT_decl_line
+	.byte	20                              @ DW_AT_data_member_location
+	.byte	11                              @ Abbrev [11] 0x1f2:0xc DW_TAG_member
+	.long	.Linfo_string18                 @ DW_AT_name
+	.long	516                             @ DW_AT_type
+	.byte	3                               @ DW_AT_decl_file
+	.byte	50                              @ DW_AT_decl_line
+	.byte	24                              @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x1ff:0x5 DW_TAG_pointer_type
+	.long	287                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x204:0x5 DW_TAG_pointer_type
+	.long	350                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+.Ldebug_info_end0:
+	.section	.debug_str,"MS",%progbits,1
+.Linfo_string0:
+	.asciz	"Component: Arm Compiler for Embedded 6.18 Tool: armclang [5e4cca00]" @ string offset=0
+.Linfo_string1:
+	.asciz	"..\\descriptors.c"             @ string offset=68
+.Linfo_string2:
+	.asciz	"D:\\Github Projeleri\\Bootloader\\Nuvoton\\KEIL" @ string offset=85
+.Linfo_string3:
+	.asciz	"HID_DeviceReportDescriptor"    @ string offset=129
+.Linfo_string4:
+	.asciz	"unsigned char"                 @ string offset=156
+.Linfo_string5:
+	.asciz	"uint8_t"                       @ string offset=170
+.Linfo_string6:
+	.asciz	"__ARRAY_SIZE_TYPE__"           @ string offset=178
+.Linfo_string7:
+	.asciz	"gu8DeviceDescriptor"           @ string offset=198
+.Linfo_string8:
+	.asciz	"gu8ConfigDescriptor"           @ string offset=218
+.Linfo_string9:
+	.asciz	"gu8StringLang"                 @ string offset=238
+.Linfo_string10:
+	.asciz	"gu8VendorStringDesc"           @ string offset=252
+.Linfo_string11:
+	.asciz	"gu8ProductStringDesc"          @ string offset=272
+.Linfo_string12:
+	.asciz	"gu8BOSDescriptor"              @ string offset=293
+.Linfo_string13:
+	.asciz	"gpu8UsbString"                 @ string offset=310
+.Linfo_string14:
+	.asciz	"gu8UsbHidReport"               @ string offset=324
+.Linfo_string15:
+	.asciz	"gu32UsbHidReportLen"           @ string offset=340
+.Linfo_string16:
+	.asciz	"unsigned int"                  @ string offset=360
+.Linfo_string17:
+	.asciz	"uint32_t"                      @ string offset=373
+.Linfo_string18:
+	.asciz	"gu32ConfigHidDescIdx"          @ string offset=382
+.Linfo_string19:
+	.asciz	"gsInfo"                        @ string offset=403
+.Linfo_string20:
+	.asciz	"gu8DevDesc"                    @ string offset=410
+.Linfo_string21:
+	.asciz	"gu8ConfigDesc"                 @ string offset=421
+.Linfo_string22:
+	.asciz	"gu8StringDesc"                 @ string offset=435
+.Linfo_string23:
+	.asciz	"gu8HidReportDesc"              @ string offset=449
+.Linfo_string24:
+	.asciz	"gu8BosDesc"                    @ string offset=466
+.Linfo_string25:
+	.asciz	"gu32HidReportSize"             @ string offset=477
+.Linfo_string26:
+	.asciz	"s_usbd_info"                   @ string offset=495
+.Linfo_string27:
+	.asciz	"S_USBD_INFO_T"                 @ string offset=507
+	.ident	"Component: Arm Compiler for Embedded 6.18 Tool: armclang [5e4cca00]"
+	.section	".note.GNU-stack","",%progbits
+	.ARM_attribute	16, 1	@ Tag_AV_eba
+	.section	.debug_line,"",%progbits
+.Lline_table_start0:

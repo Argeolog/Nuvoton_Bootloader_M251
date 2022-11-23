@@ -1,0 +1,1376 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;/******************************************************
+                       ********************//**
+    2 00000000         ; * @file     startup_M251.s
+    3 00000000         ; * @version  V0.10
+    4 00000000         ; * @brief    M251 Series Startup Source File
+    5 00000000         ; *
+    6 00000000         ; * SPDX-License-Identifier: Apache-2.0
+    7 00000000         ; * @copyright (C) 2019 Nuvoton Technology Corp. All rig
+                       hts reserved.
+    8 00000000         ; ******************************************************
+                       ************************/
+    9 00000000         
+   10 00000000         
+   11 00000000         ;/*
+   12 00000000         ;//-------- <<< Use Configuration Wizard in Context Menu
+                        >>> ------------------
+   13 00000000         ;*/
+   14 00000000         ; <h> Stack Configuration
+   15 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   16 00000000         ; </h>
+   17 00000000         
+   18 00000000                 IF               :LNOT: :DEF: Stack_Size
+   20                          ENDIF
+   21 00000000         
+   22 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
+=3
+   23 00000000         Stack_Mem
+                               SPACE            Stack_Size
+   24 00000400         __initial_sp
+   25 00000400         
+   26 00000400         
+   27 00000400         ; <h> Heap Configuration
+   28 00000400         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   29 00000400         ; </h>
+   30 00000400         
+   31 00000400                 IF               :LNOT: :DEF: Heap_Size
+   33                          ENDIF
+   34 00000400         
+   35 00000400                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+3
+   36 00000000         __heap_base
+   37 00000000         Heap_Mem
+                               SPACE            Heap_Size
+   38 00000000         __heap_limit
+   39 00000000         
+   40 00000000         
+   41 00000000                 PRESERVE8
+   42 00000000                 THUMB
+   43 00000000         
+   44 00000000         
+   45 00000000         ; Vector Table Mapped to Address 0 at Reset
+   46 00000000         
+   47 00000000                 AREA             RESET, DATA, READONLY
+   48 00000000         
+   49 00000000                 EXPORT           __Vectors
+   50 00000000                 EXPORT           __Vectors_End
+   51 00000000                 EXPORT           __Vectors_Size
+   52 00000000         
+   53 00000000 00000000 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                       __Vectors
+                               DCD              __initial_sp ;     Top of Stack
+                                                            
+   54 00000004 00000000        DCD              Reset_Handler 
+                                                            ;     Reset Handler
+                                                            
+   55 00000008 00000000        DCD              NMI_Handler ;     NMI Handler
+   56 0000000C 00000000        DCD              HardFault_Handler ;     Hard Fa
+                                                            ult Handler
+   57 00000010 00000000        DCD              0           ;     Reserved
+   58 00000014 00000000        DCD              0           ;     Reserved
+   59 00000018 00000000        DCD              0           ;     Reserved
+   60 0000001C 00000000        DCD              0           ;     Reserved
+   61 00000020 00000000        DCD              0           ;     Reserved
+   62 00000024 00000000        DCD              0           ;     Reserved
+   63 00000028 00000000        DCD              0           ;     Reserved
+   64 0000002C 00000000        DCD              SVC_Handler ;     SVCall Handle
+                                                            r
+   65 00000030 00000000        DCD              0           ;     Reserved
+   66 00000034 00000000        DCD              0           ;     Reserved
+   67 00000038 00000000        DCD              PendSV_Handler ;     PendSV Han
+                                                            dler
+   68 0000003C 00000000        DCD              SysTick_Handler ;     SysTick H
+                                                            andler
+   69 00000040         
+   70 00000040         ; External Interrupts
+   71 00000040         ; maximum of 64 External Interrupts are possible
+   72 00000040 00000000        DCD              BOD_IRQHandler ; 0  
+   73 00000044 00000000        DCD              IRCTRIM_IRQHandler ; 1  
+   74 00000048 00000000        DCD              PWRWU_IRQHandler ; 2  
+   75 0000004C 00000000        DCD              DEFAULT_IRQHandler ; 3  
+   76 00000050 00000000        DCD              CLKFAIL_IRQHandler ; 4  
+   77 00000054 00000000        DCD              DEFAULT_IRQHandler ; 5 
+   78 00000058 00000000        DCD              RTC_IRQHandler ; 6  
+   79 0000005C 00000000        DCD              TAMPER_IRQHandler ; 7  
+   80 00000060 00000000        DCD              WDT_IRQHandler ; 8  
+   81 00000064 00000000        DCD              WWDT_IRQHandler ; 9  
+   82 00000068 00000000        DCD              EINT0_IRQHandler ; 10 
+   83 0000006C 00000000        DCD              EINT1_IRQHandler ; 11 
+   84 00000070 00000000        DCD              EINT2_IRQHandler ; 12 
+   85 00000074 00000000        DCD              EINT3_IRQHandler ; 13 
+   86 00000078 00000000        DCD              EINT4_IRQHandler ; 14 
+   87 0000007C 00000000        DCD              EINT5_IRQHandler ; 15 
+   88 00000080 00000000        DCD              GPA_IRQHandler ; 16 
+   89 00000084 00000000        DCD              GPB_IRQHandler ; 17 
+   90 00000088 00000000        DCD              GPC_IRQHandler ; 18 
+   91 0000008C 00000000        DCD              GPD_IRQHandler ; 19 
+   92 00000090 00000000        DCD              GPE_IRQHandler ; 20 
+   93 00000094 00000000        DCD              GPF_IRQHandler ; 21 
+   94 00000098 00000000        DCD              QSPI0_IRQHandler ; 22 
+   95 0000009C 00000000        DCD              SPI0_IRQHandler ; 23 
+   96 000000A0 00000000        DCD              BRAKE0_IRQHandler ; 24 
+   97 000000A4 00000000        DCD              PWM0_P0_IRQHandler ; 25 
+   98 000000A8 00000000        DCD              PWM0_P1_IRQHandler ; 26 
+   99 000000AC 00000000        DCD              PWM0_P2_IRQHandler ; 27 
+  100 000000B0 00000000        DCD              BRAKE1_IRQHandler ; 28 
+  101 000000B4 00000000        DCD              PWM1_P0_IRQHandler ; 29 
+  102 000000B8 00000000        DCD              PWM1_P1_IRQHandler ; 30 
+  103 000000BC 00000000        DCD              PWM1_P2_IRQHandler ; 31 
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+  104 000000C0 00000000        DCD              TMR0_IRQHandler ; 32 
+  105 000000C4 00000000        DCD              TMR1_IRQHandler ; 33 
+  106 000000C8 00000000        DCD              TMR2_IRQHandler ; 34 
+  107 000000CC 00000000        DCD              TMR3_IRQHandler ; 35 
+  108 000000D0 00000000        DCD              UART0_IRQHandler ; 36 
+  109 000000D4 00000000        DCD              UART1_IRQHandler ; 37 
+  110 000000D8 00000000        DCD              I2C0_IRQHandler ; 38 
+  111 000000DC 00000000        DCD              I2C1_IRQHandler ; 39 
+  112 000000E0 00000000        DCD              PDMA_IRQHandler ; 40 
+  113 000000E4 00000000        DCD              DAC_IRQHandler ; 41 
+  114 000000E8 00000000        DCD              EADC_INT0_IRQHandler ; 42 
+  115 000000EC 00000000        DCD              EADC_INT1_IRQHandler ; 43 
+  116 000000F0 00000000        DCD              ACMP01_IRQHandler ; 44 
+  117 000000F4 00000000        DCD              BPWM0_IRQHandler ; 45 
+  118 000000F8 00000000        DCD              EADC_INT2_IRQHandler ; 46 
+  119 000000FC 00000000        DCD              EADC_INT3_IRQHandler ; 47 
+  120 00000100 00000000        DCD              UART2_IRQHandler ; 48 
+  121 00000104 00000000        DCD              DEFAULT_IRQHandler ; 49 
+  122 00000108 00000000        DCD              USCI0_IRQHandler ; 50 
+  123 0000010C 00000000        DCD              DEFAULT_IRQHandler ; 51 
+  124 00000110 00000000        DCD              USCI1_IRQHandler ; 52 
+  125 00000114 00000000        DCD              USBD_IRQHandler ; 53 
+  126 00000118 00000000        DCD              BPWM1_IRQHandler ; 54 
+  127 0000011C 00000000        DCD              PSIO_IRQHandler ; 55 
+  128 00000120 00000000        DCD              DEFAULT_IRQHandler ; 56 
+  129 00000124 00000000        DCD              DEFAULT_IRQHandler ; 57 
+  130 00000128 00000000        DCD              SC0_IRQHandler ; 58 
+  131 0000012C 00000000        DCD              DEFAULT_IRQHandler ; 59 
+  132 00000130 00000000        DCD              USCI2_IRQHandler ; 60 
+  133 00000134 00000000        DCD              DEFAULT_IRQHandler ; 61 
+  134 00000138 00000000        DCD              OPA_IRQHandler ; 62 
+  135 0000013C 00000000        DCD              DEFAULT_IRQHandler ; 63 
+  136 00000140         
+  137 00000140         
+  138 00000140         
+  139 00000140         __Vectors_End
+  140 00000140         
+  141 00000140 00000140 
+                       __Vectors_Size
+                               EQU              __Vectors_End - __Vectors
+  142 00000140         
+  143 00000140                 AREA             |.text|, CODE, READONLY
+  144 00000000         
+  145 00000000         
+  146 00000000         ; Reset Handler
+  147 00000000         
+  148 00000000         Reset_Handler
+                               PROC
+  149 00000000                 EXPORT           Reset_Handler             [WEAK
+]
+  150 00000000                 IMPORT           SystemInit
+  151 00000000                 IMPORT           __main
+  152 00000000         
+  153 00000000         ; Unlock Register                
+  154 00000000         ;IF :DEF: __ARM_FEATURE_CMSE
+  155 00000000         ;IF __ARM_FEATURE_CMSE = 3
+  156 00000000 480E            LDR              R0, =0x40000100
+  157 00000002 F240 0159       LDR              R1, =0x59
+  158 00000006 6001            STR              R1, [R0]
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  159 00000008 F240 0116       LDR              R1, =0x16
+  160 0000000C 6001            STR              R1, [R0]
+  161 0000000E F240 0188       LDR              R1, =0x88
+  162 00000012 6001            STR              R1, [R0]
+  163 00000014         
+  164 00000014 480A            LDR              R0, =SystemInit
+  165 00000016 4780            BLX              R0
+  166 00000018         
+  167 00000018         ; Init POR
+  168 00000018 4A0A            LDR              R2, =0x40000024
+  169 0000001A F645 21A5       LDR              R1, =0x5AA5
+  170 0000001E 6011            STR              R1, [R2]
+  171 00000020         
+  172 00000020 4A09            LDR              R2, =0x400001EC
+  173 00000022 6011            STR              R1, [R2]
+  174 00000024         
+  175 00000024         ; Lock register
+  176 00000024 4805            LDR              R0, =0x40000100
+  177 00000026 2100            MOVS             R1, #0
+  178 00000028 6001            STR              R1, [R0]
+  179 0000002A         ;ENDIF
+  180 0000002A         ;ENDIF
+  181 0000002A         
+  182 0000002A 4808            LDR              R0, =__main
+  183 0000002C 4700            BX               R0
+  184 0000002E                 ENDP
+  185 0000002E         
+  186 0000002E         
+  187 0000002E         ; Dummy Exception Handlers (infinite loops which can be 
+                       modified)
+  188 0000002E         
+  189 0000002E         NMI_Handler
+                               PROC
+  190 0000002E                 EXPORT           NMI_Handler               [WEAK
+]
+  191 0000002E E7FE            B                .
+  192 00000030                 ENDP
+  194 00000030         HardFault_Handler
+                               PROC
+  195 00000030                 EXPORT           HardFault_Handler         [WEAK
+]
+  196 00000030 E7FE            B                .
+  197 00000032                 ENDP
+  198 00000032         SVC_Handler
+                               PROC
+  199 00000032                 EXPORT           SVC_Handler               [WEAK
+]
+  200 00000032 E7FE            B                .
+  201 00000034                 ENDP
+  202 00000034         PendSV_Handler
+                               PROC
+  203 00000034                 EXPORT           PendSV_Handler            [WEAK
+]
+  204 00000034 E7FE            B                .
+  205 00000036                 ENDP
+  206 00000036         SysTick_Handler
+                               PROC
+  207 00000036                 EXPORT           SysTick_Handler           [WEAK
+]
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+  208 00000036 E7FE            B                .
+  209 00000038                 ENDP
+  210 00000038         
+  211 00000038         Default_Handler
+                               PROC
+  212 00000038         
+  213 00000038                 EXPORT           BOD_IRQHandler            [WEAK
+] 
+                                                            ; 0  
+  214 00000038                 EXPORT           IRCTRIM_IRQHandler        [WEAK
+] 
+                                                            ; 1  
+  215 00000038                 EXPORT           PWRWU_IRQHandler          [WEAK
+] 
+                                                            ; 2  
+  216 00000038         ;EXPORT  0                         [WEAK] ; 3  
+  217 00000038                 EXPORT           CLKFAIL_IRQHandler        [WEAK
+] 
+                                                            ; 4  
+  218 00000038         ;EXPORT  0                         [WEAK] ; 5  
+  219 00000038                 EXPORT           RTC_IRQHandler            [WEAK
+] 
+                                                            ; 6  
+  220 00000038                 EXPORT           TAMPER_IRQHandler         [WEAK
+] 
+                                                            ; 7  
+  221 00000038                 EXPORT           WDT_IRQHandler            [WEAK
+] 
+                                                            ; 8  
+  222 00000038                 EXPORT           WWDT_IRQHandler           [WEAK
+] 
+                                                            ; 9  
+  223 00000038                 EXPORT           EINT0_IRQHandler          [WEAK
+] 
+                                                            ; 10 
+  224 00000038                 EXPORT           EINT1_IRQHandler          [WEAK
+] 
+                                                            ; 11 
+  225 00000038                 EXPORT           EINT2_IRQHandler          [WEAK
+] 
+                                                            ; 12 
+  226 00000038                 EXPORT           EINT3_IRQHandler          [WEAK
+] 
+                                                            ; 13 
+  227 00000038                 EXPORT           EINT4_IRQHandler          [WEAK
+] 
+                                                            ; 14 
+  228 00000038                 EXPORT           EINT5_IRQHandler          [WEAK
+] 
+                                                            ; 15 
+  229 00000038                 EXPORT           GPA_IRQHandler            [WEAK
+] 
+                                                            ; 16 
+  230 00000038                 EXPORT           GPB_IRQHandler            [WEAK
+] 
+                                                            ; 17 
+  231 00000038                 EXPORT           GPC_IRQHandler            [WEAK
+] 
+                                                            ; 18 
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  232 00000038                 EXPORT           GPD_IRQHandler            [WEAK
+] 
+                                                            ; 19 
+  233 00000038                 EXPORT           GPE_IRQHandler            [WEAK
+] 
+                                                            ; 20 
+  234 00000038                 EXPORT           GPF_IRQHandler            [WEAK
+] 
+                                                            ; 21 
+  235 00000038                 EXPORT           QSPI0_IRQHandler          [WEAK
+] 
+                                                            ; 22 
+  236 00000038                 EXPORT           SPI0_IRQHandler           [WEAK
+] 
+                                                            ; 23 
+  237 00000038                 EXPORT           BRAKE0_IRQHandler         [WEAK
+] 
+                                                            ; 24 
+  238 00000038                 EXPORT           PWM0_P0_IRQHandler        [WEAK
+] 
+                                                            ; 25 
+  239 00000038                 EXPORT           PWM0_P1_IRQHandler        [WEAK
+] 
+                                                            ; 26 
+  240 00000038                 EXPORT           PWM0_P2_IRQHandler        [WEAK
+] 
+                                                            ; 27 
+  241 00000038                 EXPORT           BRAKE1_IRQHandler         [WEAK
+] 
+                                                            ; 28 
+  242 00000038                 EXPORT           PWM1_P0_IRQHandler        [WEAK
+] 
+                                                            ; 29 
+  243 00000038                 EXPORT           PWM1_P1_IRQHandler        [WEAK
+] 
+                                                            ; 30 
+  244 00000038                 EXPORT           PWM1_P2_IRQHandler        [WEAK
+] 
+                                                            ; 31 
+  245 00000038                 EXPORT           TMR0_IRQHandler           [WEAK
+] 
+                                                            ; 32 
+  246 00000038                 EXPORT           TMR1_IRQHandler           [WEAK
+] 
+                                                            ; 33 
+  247 00000038                 EXPORT           TMR2_IRQHandler           [WEAK
+] 
+                                                            ; 34 
+  248 00000038                 EXPORT           TMR3_IRQHandler           [WEAK
+] 
+                                                            ; 35 
+  249 00000038                 EXPORT           UART0_IRQHandler          [WEAK
+] 
+                                                            ; 36 
+  250 00000038                 EXPORT           UART1_IRQHandler          [WEAK
+] 
+                                                            ; 37 
+  251 00000038                 EXPORT           I2C0_IRQHandler           [WEAK
+] 
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+                                                            ; 38 
+  252 00000038                 EXPORT           I2C1_IRQHandler           [WEAK
+] 
+                                                            ; 39 
+  253 00000038                 EXPORT           PDMA_IRQHandler           [WEAK
+] 
+                                                            ; 40 
+  254 00000038                 EXPORT           DAC_IRQHandler            [WEAK
+] 
+                                                            ; 41 
+  255 00000038                 EXPORT           EADC_INT0_IRQHandler      [WEAK
+] 
+                                                            ; 42 
+  256 00000038                 EXPORT           EADC_INT1_IRQHandler      [WEAK
+] 
+                                                            ; 43 
+  257 00000038                 EXPORT           ACMP01_IRQHandler         [WEAK
+] 
+                                                            ; 44 
+  258 00000038                 EXPORT           BPWM0_IRQHandler          [WEAK
+] 
+                                                            ; 45 
+  259 00000038                 EXPORT           EADC_INT2_IRQHandler      [WEAK
+] 
+                                                            ; 46 
+  260 00000038                 EXPORT           EADC_INT3_IRQHandler      [WEAK
+] 
+                                                            ; 47 
+  261 00000038                 EXPORT           UART2_IRQHandler          [WEAK
+] 
+                                                            ; 48 
+  262 00000038         ;EXPORT  0                         [WEAK] ; 49 
+  263 00000038                 EXPORT           USCI0_IRQHandler          [WEAK
+] 
+                                                            ; 50 
+  264 00000038         ;EXPORT  0                         [WEAK] ; 51 
+  265 00000038                 EXPORT           USCI1_IRQHandler          [WEAK
+] 
+                                                            ; 52 
+  266 00000038                 EXPORT           USBD_IRQHandler           [WEAK
+] 
+                                                            ; 53 
+  267 00000038                 EXPORT           BPWM1_IRQHandler          [WEAK
+] 
+                                                            ; 54 
+  268 00000038                 EXPORT           PSIO_IRQHandler           [WEAK
+] 
+                                                            ; 55 
+  269 00000038         ;EXPORT  0                         [WEAK] ; 56 
+  270 00000038         ;EXPORT  0                         [WEAK] ; 57 
+  271 00000038                 EXPORT           SC0_IRQHandler            [WEAK
+] 
+                                                            ; 58 
+  272 00000038         ;EXPORT  0                         [WEAK] ; 59 
+  273 00000038                 EXPORT           USCI2_IRQHandler          [WEAK
+] 
+                                                            ; 60 
+  274 00000038         ;EXPORT  0                         [WEAK] ; 61 
+  275 00000038                 EXPORT           OPA_IRQHandler            [WEAK
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+] 
+                                                            ; 62 
+  276 00000038         ;EXPORT  0                         [WEAK] ; 63 
+  277 00000038         
+  278 00000038         
+  279 00000038         
+  280 00000038                 EXPORT           DEFAULT_IRQHandler        [WEAK
+]
+  281 00000038         
+  282 00000038         BOD_IRQHandler                       ; 0  
+  283 00000038         IRCTRIM_IRQHandler                   ; 1  
+  284 00000038         PWRWU_IRQHandler                     ; 2  
+  285 00000038         ;0                         ; 3  
+  286 00000038         CLKFAIL_IRQHandler                   ; 4  
+  287 00000038         ;0                         ; 5  
+  288 00000038         RTC_IRQHandler                       ; 6  
+  289 00000038         TAMPER_IRQHandler                    ; 7  
+  290 00000038         WDT_IRQHandler                       ; 8  
+  291 00000038         WWDT_IRQHandler                      ; 9  
+  292 00000038         EINT0_IRQHandler                     ; 10 
+  293 00000038         EINT1_IRQHandler                     ; 11 
+  294 00000038         EINT2_IRQHandler                     ; 12 
+  295 00000038         EINT3_IRQHandler                     ; 13 
+  296 00000038         EINT4_IRQHandler                     ; 14 
+  297 00000038         EINT5_IRQHandler                     ; 15 
+  298 00000038         GPA_IRQHandler                       ; 16 
+  299 00000038         GPB_IRQHandler                       ; 17 
+  300 00000038         GPC_IRQHandler                       ; 18 
+  301 00000038         GPD_IRQHandler                       ; 19 
+  302 00000038         GPE_IRQHandler                       ; 20 
+  303 00000038         GPF_IRQHandler                       ; 21 
+  304 00000038         QSPI0_IRQHandler                     ; 22 
+  305 00000038         SPI0_IRQHandler                      ; 23 
+  306 00000038         BRAKE0_IRQHandler                    ; 24 
+  307 00000038         PWM0_P0_IRQHandler                   ; 25 
+  308 00000038         PWM0_P1_IRQHandler                   ; 26 
+  309 00000038         PWM0_P2_IRQHandler                   ; 27 
+  310 00000038         BRAKE1_IRQHandler                    ; 28 
+  311 00000038         PWM1_P0_IRQHandler                   ; 29 
+  312 00000038         PWM1_P1_IRQHandler                   ; 30 
+  313 00000038         PWM1_P2_IRQHandler                   ; 31 
+  314 00000038         TMR0_IRQHandler                      ; 32 
+  315 00000038         TMR1_IRQHandler                      ; 33 
+  316 00000038         TMR2_IRQHandler                      ; 34 
+  317 00000038         TMR3_IRQHandler                      ; 35 
+  318 00000038         UART0_IRQHandler                     ; 36 
+  319 00000038         UART1_IRQHandler                     ; 37 
+  320 00000038         I2C0_IRQHandler                      ; 38 
+  321 00000038         I2C1_IRQHandler                      ; 39 
+  322 00000038         PDMA_IRQHandler                      ; 40 
+  323 00000038         DAC_IRQHandler                       ; 41 
+  324 00000038         EADC_INT0_IRQHandler                 ; 42 
+  325 00000038         EADC_INT1_IRQHandler                 ; 43 
+  326 00000038         ACMP01_IRQHandler                    ; 44 
+  327 00000038         BPWM0_IRQHandler                     ; 45 
+  328 00000038         EADC_INT2_IRQHandler                 ; 46 
+  329 00000038         EADC_INT3_IRQHandler                 ; 47 
+  330 00000038         UART2_IRQHandler                     ; 48 
+  331 00000038         ;0                         ; 49 
+
+
+
+ARM Macro Assembler    Page 9 
+
+
+  332 00000038         USCI0_IRQHandler                     ; 50   
+  333 00000038         ;0                         ; 51 
+  334 00000038         USCI1_IRQHandler                     ; 52 
+  335 00000038         USBD_IRQHandler                      ; 53 
+  336 00000038         BPWM1_IRQHandler                     ; 54
+  337 00000038         PSIO_IRQHandler                      ; 55 
+  338 00000038         ;0                         ; 56   
+  339 00000038         ;0                         ; 57 
+  340 00000038         SC0_IRQHandler                       ; 58 
+  341 00000038         ;0                         ; 59 
+  342 00000038         USCI2_IRQHandler                     ; 60 
+  343 00000038         ;0                         ; 61
+  344 00000038         OPA_IRQHandler                       ; 62 
+  345 00000038         ;0                         ; 63
+  346 00000038         
+  347 00000038         DEFAULT_IRQHandler
+  348 00000038 E7FE            B                .
+  349 0000003A                 ENDP
+  350 0000003A         
+  351 0000003A         
+  352 0000003A 00 00           ALIGN
+  353 0000003C         
+  354 0000003C         
+  355 0000003C         ; User Initial Stack & Heap
+  356 0000003C         
+  357 0000003C                 IF               :DEF:__MICROLIB
+  358 0000003C         
+  359 0000003C                 EXPORT           __initial_sp
+  360 0000003C                 EXPORT           __heap_base
+  361 0000003C                 EXPORT           __heap_limit
+  362 0000003C         
+  363 0000003C                 ELSE
+  378                          ENDIF
+  379 0000003C         
+  380 0000003C         
+  381 0000003C                 END
+              40000100 
+              00000000 
+              40000024 
+              400001EC 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M23 --depend=.\o
+bj\startup_m251_user.d -o.\obj\startup_m251_user.o -I.\RTE\_Nuvoton_Bootloader 
+-IC:\Users\Hasan\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC
+:\Users\Hasan\AppData\Local\Arm\Packs\Nuvoton\NuMicro_DFP\1.3.18\Device\M251\In
+clude --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 537" 
+--predefine="_RTE_ SETA 1" --predefine="_RTE_ SETA 1" --list=.\lst\startup_m251
+_user.lst ..\Keil\startup_M251_user.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+STACK 00000000
+
+Symbol: STACK
+   Definitions
+      At line 22 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: STACK unused
+Stack_Mem 00000000
+
+Symbol: Stack_Mem
+   Definitions
+      At line 23 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: Stack_Mem unused
+__initial_sp 00000400
+
+Symbol: __initial_sp
+   Definitions
+      At line 24 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 53 in file ..\Keil\startup_M251_user.s
+      At line 359 in file ..\Keil\startup_M251_user.s
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+HEAP 00000000
+
+Symbol: HEAP
+   Definitions
+      At line 35 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: HEAP unused
+Heap_Mem 00000000
+
+Symbol: Heap_Mem
+   Definitions
+      At line 37 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: Heap_Mem unused
+__heap_base 00000000
+
+Symbol: __heap_base
+   Definitions
+      At line 36 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 360 in file ..\Keil\startup_M251_user.s
+Comment: __heap_base used once
+__heap_limit 00000000
+
+Symbol: __heap_limit
+   Definitions
+      At line 38 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 361 in file ..\Keil\startup_M251_user.s
+Comment: __heap_limit used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+RESET 00000000
+
+Symbol: RESET
+   Definitions
+      At line 47 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: RESET unused
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 53 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 49 in file ..\Keil\startup_M251_user.s
+      At line 141 in file ..\Keil\startup_M251_user.s
+
+__Vectors_End 00000140
+
+Symbol: __Vectors_End
+   Definitions
+      At line 139 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 50 in file ..\Keil\startup_M251_user.s
+      At line 141 in file ..\Keil\startup_M251_user.s
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 143 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: .text unused
+ACMP01_IRQHandler 00000038
+
+Symbol: ACMP01_IRQHandler
+   Definitions
+      At line 326 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 116 in file ..\Keil\startup_M251_user.s
+      At line 257 in file ..\Keil\startup_M251_user.s
+
+BOD_IRQHandler 00000038
+
+Symbol: BOD_IRQHandler
+   Definitions
+      At line 282 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 72 in file ..\Keil\startup_M251_user.s
+      At line 213 in file ..\Keil\startup_M251_user.s
+
+BPWM0_IRQHandler 00000038
+
+Symbol: BPWM0_IRQHandler
+   Definitions
+      At line 327 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 117 in file ..\Keil\startup_M251_user.s
+      At line 258 in file ..\Keil\startup_M251_user.s
+
+BPWM1_IRQHandler 00000038
+
+Symbol: BPWM1_IRQHandler
+   Definitions
+      At line 336 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 126 in file ..\Keil\startup_M251_user.s
+      At line 267 in file ..\Keil\startup_M251_user.s
+
+BRAKE0_IRQHandler 00000038
+
+Symbol: BRAKE0_IRQHandler
+   Definitions
+      At line 306 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 96 in file ..\Keil\startup_M251_user.s
+      At line 237 in file ..\Keil\startup_M251_user.s
+
+BRAKE1_IRQHandler 00000038
+
+Symbol: BRAKE1_IRQHandler
+   Definitions
+      At line 310 in file ..\Keil\startup_M251_user.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 100 in file ..\Keil\startup_M251_user.s
+      At line 241 in file ..\Keil\startup_M251_user.s
+
+CLKFAIL_IRQHandler 00000038
+
+Symbol: CLKFAIL_IRQHandler
+   Definitions
+      At line 286 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 76 in file ..\Keil\startup_M251_user.s
+      At line 217 in file ..\Keil\startup_M251_user.s
+
+DAC_IRQHandler 00000038
+
+Symbol: DAC_IRQHandler
+   Definitions
+      At line 323 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 113 in file ..\Keil\startup_M251_user.s
+      At line 254 in file ..\Keil\startup_M251_user.s
+
+DEFAULT_IRQHandler 00000038
+
+Symbol: DEFAULT_IRQHandler
+   Definitions
+      At line 347 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 75 in file ..\Keil\startup_M251_user.s
+      At line 77 in file ..\Keil\startup_M251_user.s
+      At line 121 in file ..\Keil\startup_M251_user.s
+      At line 123 in file ..\Keil\startup_M251_user.s
+      At line 128 in file ..\Keil\startup_M251_user.s
+      At line 129 in file ..\Keil\startup_M251_user.s
+      At line 131 in file ..\Keil\startup_M251_user.s
+      At line 133 in file ..\Keil\startup_M251_user.s
+      At line 135 in file ..\Keil\startup_M251_user.s
+      At line 280 in file ..\Keil\startup_M251_user.s
+
+Default_Handler 00000038
+
+Symbol: Default_Handler
+   Definitions
+      At line 211 in file ..\Keil\startup_M251_user.s
+   Uses
+      None
+Comment: Default_Handler unused
+EADC_INT0_IRQHandler 00000038
+
+Symbol: EADC_INT0_IRQHandler
+   Definitions
+      At line 324 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 114 in file ..\Keil\startup_M251_user.s
+      At line 255 in file ..\Keil\startup_M251_user.s
+
+EADC_INT1_IRQHandler 00000038
+
+Symbol: EADC_INT1_IRQHandler
+   Definitions
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 325 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 115 in file ..\Keil\startup_M251_user.s
+      At line 256 in file ..\Keil\startup_M251_user.s
+
+EADC_INT2_IRQHandler 00000038
+
+Symbol: EADC_INT2_IRQHandler
+   Definitions
+      At line 328 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 118 in file ..\Keil\startup_M251_user.s
+      At line 259 in file ..\Keil\startup_M251_user.s
+
+EADC_INT3_IRQHandler 00000038
+
+Symbol: EADC_INT3_IRQHandler
+   Definitions
+      At line 329 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 119 in file ..\Keil\startup_M251_user.s
+      At line 260 in file ..\Keil\startup_M251_user.s
+
+EINT0_IRQHandler 00000038
+
+Symbol: EINT0_IRQHandler
+   Definitions
+      At line 292 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 82 in file ..\Keil\startup_M251_user.s
+      At line 223 in file ..\Keil\startup_M251_user.s
+
+EINT1_IRQHandler 00000038
+
+Symbol: EINT1_IRQHandler
+   Definitions
+      At line 293 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 83 in file ..\Keil\startup_M251_user.s
+      At line 224 in file ..\Keil\startup_M251_user.s
+
+EINT2_IRQHandler 00000038
+
+Symbol: EINT2_IRQHandler
+   Definitions
+      At line 294 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 84 in file ..\Keil\startup_M251_user.s
+      At line 225 in file ..\Keil\startup_M251_user.s
+
+EINT3_IRQHandler 00000038
+
+Symbol: EINT3_IRQHandler
+   Definitions
+      At line 295 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 85 in file ..\Keil\startup_M251_user.s
+      At line 226 in file ..\Keil\startup_M251_user.s
+
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Relocatable symbols
+
+EINT4_IRQHandler 00000038
+
+Symbol: EINT4_IRQHandler
+   Definitions
+      At line 296 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 86 in file ..\Keil\startup_M251_user.s
+      At line 227 in file ..\Keil\startup_M251_user.s
+
+EINT5_IRQHandler 00000038
+
+Symbol: EINT5_IRQHandler
+   Definitions
+      At line 297 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 87 in file ..\Keil\startup_M251_user.s
+      At line 228 in file ..\Keil\startup_M251_user.s
+
+GPA_IRQHandler 00000038
+
+Symbol: GPA_IRQHandler
+   Definitions
+      At line 298 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 88 in file ..\Keil\startup_M251_user.s
+      At line 229 in file ..\Keil\startup_M251_user.s
+
+GPB_IRQHandler 00000038
+
+Symbol: GPB_IRQHandler
+   Definitions
+      At line 299 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 89 in file ..\Keil\startup_M251_user.s
+      At line 230 in file ..\Keil\startup_M251_user.s
+
+GPC_IRQHandler 00000038
+
+Symbol: GPC_IRQHandler
+   Definitions
+      At line 300 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 90 in file ..\Keil\startup_M251_user.s
+      At line 231 in file ..\Keil\startup_M251_user.s
+
+GPD_IRQHandler 00000038
+
+Symbol: GPD_IRQHandler
+   Definitions
+      At line 301 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 91 in file ..\Keil\startup_M251_user.s
+      At line 232 in file ..\Keil\startup_M251_user.s
+
+GPE_IRQHandler 00000038
+
+Symbol: GPE_IRQHandler
+   Definitions
+      At line 302 in file ..\Keil\startup_M251_user.s
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Relocatable symbols
+
+   Uses
+      At line 92 in file ..\Keil\startup_M251_user.s
+      At line 233 in file ..\Keil\startup_M251_user.s
+
+GPF_IRQHandler 00000038
+
+Symbol: GPF_IRQHandler
+   Definitions
+      At line 303 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 93 in file ..\Keil\startup_M251_user.s
+      At line 234 in file ..\Keil\startup_M251_user.s
+
+HardFault_Handler 00000030
+
+Symbol: HardFault_Handler
+   Definitions
+      At line 194 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 56 in file ..\Keil\startup_M251_user.s
+      At line 195 in file ..\Keil\startup_M251_user.s
+
+I2C0_IRQHandler 00000038
+
+Symbol: I2C0_IRQHandler
+   Definitions
+      At line 320 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 110 in file ..\Keil\startup_M251_user.s
+      At line 251 in file ..\Keil\startup_M251_user.s
+
+I2C1_IRQHandler 00000038
+
+Symbol: I2C1_IRQHandler
+   Definitions
+      At line 321 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 111 in file ..\Keil\startup_M251_user.s
+      At line 252 in file ..\Keil\startup_M251_user.s
+
+IRCTRIM_IRQHandler 00000038
+
+Symbol: IRCTRIM_IRQHandler
+   Definitions
+      At line 283 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 73 in file ..\Keil\startup_M251_user.s
+      At line 214 in file ..\Keil\startup_M251_user.s
+
+NMI_Handler 0000002E
+
+Symbol: NMI_Handler
+   Definitions
+      At line 189 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 55 in file ..\Keil\startup_M251_user.s
+      At line 190 in file ..\Keil\startup_M251_user.s
+
+OPA_IRQHandler 00000038
+
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: OPA_IRQHandler
+   Definitions
+      At line 344 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 134 in file ..\Keil\startup_M251_user.s
+      At line 275 in file ..\Keil\startup_M251_user.s
+
+PDMA_IRQHandler 00000038
+
+Symbol: PDMA_IRQHandler
+   Definitions
+      At line 322 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 112 in file ..\Keil\startup_M251_user.s
+      At line 253 in file ..\Keil\startup_M251_user.s
+
+PSIO_IRQHandler 00000038
+
+Symbol: PSIO_IRQHandler
+   Definitions
+      At line 337 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 127 in file ..\Keil\startup_M251_user.s
+      At line 268 in file ..\Keil\startup_M251_user.s
+
+PWM0_P0_IRQHandler 00000038
+
+Symbol: PWM0_P0_IRQHandler
+   Definitions
+      At line 307 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 97 in file ..\Keil\startup_M251_user.s
+      At line 238 in file ..\Keil\startup_M251_user.s
+
+PWM0_P1_IRQHandler 00000038
+
+Symbol: PWM0_P1_IRQHandler
+   Definitions
+      At line 308 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 98 in file ..\Keil\startup_M251_user.s
+      At line 239 in file ..\Keil\startup_M251_user.s
+
+PWM0_P2_IRQHandler 00000038
+
+Symbol: PWM0_P2_IRQHandler
+   Definitions
+      At line 309 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 99 in file ..\Keil\startup_M251_user.s
+      At line 240 in file ..\Keil\startup_M251_user.s
+
+PWM1_P0_IRQHandler 00000038
+
+Symbol: PWM1_P0_IRQHandler
+   Definitions
+      At line 311 in file ..\Keil\startup_M251_user.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 7 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 101 in file ..\Keil\startup_M251_user.s
+      At line 242 in file ..\Keil\startup_M251_user.s
+
+PWM1_P1_IRQHandler 00000038
+
+Symbol: PWM1_P1_IRQHandler
+   Definitions
+      At line 312 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 102 in file ..\Keil\startup_M251_user.s
+      At line 243 in file ..\Keil\startup_M251_user.s
+
+PWM1_P2_IRQHandler 00000038
+
+Symbol: PWM1_P2_IRQHandler
+   Definitions
+      At line 313 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 103 in file ..\Keil\startup_M251_user.s
+      At line 244 in file ..\Keil\startup_M251_user.s
+
+PWRWU_IRQHandler 00000038
+
+Symbol: PWRWU_IRQHandler
+   Definitions
+      At line 284 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 74 in file ..\Keil\startup_M251_user.s
+      At line 215 in file ..\Keil\startup_M251_user.s
+
+PendSV_Handler 00000034
+
+Symbol: PendSV_Handler
+   Definitions
+      At line 202 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 67 in file ..\Keil\startup_M251_user.s
+      At line 203 in file ..\Keil\startup_M251_user.s
+
+QSPI0_IRQHandler 00000038
+
+Symbol: QSPI0_IRQHandler
+   Definitions
+      At line 304 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 94 in file ..\Keil\startup_M251_user.s
+      At line 235 in file ..\Keil\startup_M251_user.s
+
+RTC_IRQHandler 00000038
+
+Symbol: RTC_IRQHandler
+   Definitions
+      At line 288 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 78 in file ..\Keil\startup_M251_user.s
+      At line 219 in file ..\Keil\startup_M251_user.s
+
+Reset_Handler 00000000
+
+
+
+
+ARM Macro Assembler    Page 8 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: Reset_Handler
+   Definitions
+      At line 148 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 54 in file ..\Keil\startup_M251_user.s
+      At line 149 in file ..\Keil\startup_M251_user.s
+
+SC0_IRQHandler 00000038
+
+Symbol: SC0_IRQHandler
+   Definitions
+      At line 340 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 130 in file ..\Keil\startup_M251_user.s
+      At line 271 in file ..\Keil\startup_M251_user.s
+
+SPI0_IRQHandler 00000038
+
+Symbol: SPI0_IRQHandler
+   Definitions
+      At line 305 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 95 in file ..\Keil\startup_M251_user.s
+      At line 236 in file ..\Keil\startup_M251_user.s
+
+SVC_Handler 00000032
+
+Symbol: SVC_Handler
+   Definitions
+      At line 198 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 64 in file ..\Keil\startup_M251_user.s
+      At line 199 in file ..\Keil\startup_M251_user.s
+
+SysTick_Handler 00000036
+
+Symbol: SysTick_Handler
+   Definitions
+      At line 206 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 68 in file ..\Keil\startup_M251_user.s
+      At line 207 in file ..\Keil\startup_M251_user.s
+
+TAMPER_IRQHandler 00000038
+
+Symbol: TAMPER_IRQHandler
+   Definitions
+      At line 289 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 79 in file ..\Keil\startup_M251_user.s
+      At line 220 in file ..\Keil\startup_M251_user.s
+
+TMR0_IRQHandler 00000038
+
+Symbol: TMR0_IRQHandler
+   Definitions
+      At line 314 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 104 in file ..\Keil\startup_M251_user.s
+
+
+
+ARM Macro Assembler    Page 9 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 245 in file ..\Keil\startup_M251_user.s
+
+TMR1_IRQHandler 00000038
+
+Symbol: TMR1_IRQHandler
+   Definitions
+      At line 315 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 105 in file ..\Keil\startup_M251_user.s
+      At line 246 in file ..\Keil\startup_M251_user.s
+
+TMR2_IRQHandler 00000038
+
+Symbol: TMR2_IRQHandler
+   Definitions
+      At line 316 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 106 in file ..\Keil\startup_M251_user.s
+      At line 247 in file ..\Keil\startup_M251_user.s
+
+TMR3_IRQHandler 00000038
+
+Symbol: TMR3_IRQHandler
+   Definitions
+      At line 317 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 107 in file ..\Keil\startup_M251_user.s
+      At line 248 in file ..\Keil\startup_M251_user.s
+
+UART0_IRQHandler 00000038
+
+Symbol: UART0_IRQHandler
+   Definitions
+      At line 318 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 108 in file ..\Keil\startup_M251_user.s
+      At line 249 in file ..\Keil\startup_M251_user.s
+
+UART1_IRQHandler 00000038
+
+Symbol: UART1_IRQHandler
+   Definitions
+      At line 319 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 109 in file ..\Keil\startup_M251_user.s
+      At line 250 in file ..\Keil\startup_M251_user.s
+
+UART2_IRQHandler 00000038
+
+Symbol: UART2_IRQHandler
+   Definitions
+      At line 330 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 120 in file ..\Keil\startup_M251_user.s
+      At line 261 in file ..\Keil\startup_M251_user.s
+
+USBD_IRQHandler 00000038
+
+Symbol: USBD_IRQHandler
+
+
+
+ARM Macro Assembler    Page 10 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 335 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 125 in file ..\Keil\startup_M251_user.s
+      At line 266 in file ..\Keil\startup_M251_user.s
+
+USCI0_IRQHandler 00000038
+
+Symbol: USCI0_IRQHandler
+   Definitions
+      At line 332 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 122 in file ..\Keil\startup_M251_user.s
+      At line 263 in file ..\Keil\startup_M251_user.s
+
+USCI1_IRQHandler 00000038
+
+Symbol: USCI1_IRQHandler
+   Definitions
+      At line 334 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 124 in file ..\Keil\startup_M251_user.s
+      At line 265 in file ..\Keil\startup_M251_user.s
+
+USCI2_IRQHandler 00000038
+
+Symbol: USCI2_IRQHandler
+   Definitions
+      At line 342 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 132 in file ..\Keil\startup_M251_user.s
+      At line 273 in file ..\Keil\startup_M251_user.s
+
+WDT_IRQHandler 00000038
+
+Symbol: WDT_IRQHandler
+   Definitions
+      At line 290 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 80 in file ..\Keil\startup_M251_user.s
+      At line 221 in file ..\Keil\startup_M251_user.s
+
+WWDT_IRQHandler 00000038
+
+Symbol: WWDT_IRQHandler
+   Definitions
+      At line 291 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 81 in file ..\Keil\startup_M251_user.s
+      At line 222 in file ..\Keil\startup_M251_user.s
+
+64 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+Heap_Size 00000000
+
+Symbol: Heap_Size
+   Definitions
+      At line 32 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 37 in file ..\Keil\startup_M251_user.s
+Comment: Heap_Size used once
+Stack_Size 00000400
+
+Symbol: Stack_Size
+   Definitions
+      At line 19 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 23 in file ..\Keil\startup_M251_user.s
+Comment: Stack_Size used once
+__Vectors_Size 00000140
+
+Symbol: __Vectors_Size
+   Definitions
+      At line 141 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 51 in file ..\Keil\startup_M251_user.s
+Comment: __Vectors_Size used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+SystemInit 00000000
+
+Symbol: SystemInit
+   Definitions
+      At line 150 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 164 in file ..\Keil\startup_M251_user.s
+Comment: SystemInit used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 151 in file ..\Keil\startup_M251_user.s
+   Uses
+      At line 182 in file ..\Keil\startup_M251_user.s
+Comment: __main used once
+2 symbols
+416 symbols in table
